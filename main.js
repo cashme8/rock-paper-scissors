@@ -1,3 +1,6 @@
+let playernum = 0;
+let computernum = 0;
+
 function getComputerChoice(){
     const pick = ['Rock', 'Paper', 'Scissors'];
     const computerpick = pick[Math.floor(Math.random() * pick.length)];
@@ -26,11 +29,13 @@ else {
 }
  }
 
- function playGame(){
+ /*function playGame(){
     let playernum = 0;
     let computernum = 0;
 
-    for (let i = 0; i <= 5; i++){
+    let continuePlaying = true;
+
+    while (continuePlaying){
 
         const playerSelection = prompt("pick your play:");
         const computerSelection = getComputerChoice();
@@ -44,14 +49,73 @@ else {
         }else if (roundResults.startsWith('You Lose!')){
             computernum++;
         }
+        continuePlaying = confirm("Do you want to play another round?");
     }
+
     //tell the winner
-    if (playernum > computernum){
-        console.log("My friend, you win the Game")
-    }else if (playernum < computernum){
-            console.log("You lost, one more Game?")
-    }else{
-            console.log("The Game is a tie")
-        }
+    if (roundResults.startsWith('You Win')) {
+        playernum++;
+    } else if (roundResults.startsWith('You Lose!')) {
+        computernum++;
+    }
+
+    let answer;
+    answer.textContent = (`Player: ${playernum}, Computer: ${computernum}`);
 }
-console.log(playGame());
+console.log(playGame());*/
+/* this is the code i used before and it served a different purpose*/
+
+function playRound(playerSelection) {
+
+    const computerSelection = getComputerChoice();
+    const roundResults = oneRound(playerSelection, computerSelection);
+
+    document.getElementById('results').innerText = roundResults;
+ 
+   
+    if (roundResults.startsWith('You Win')) {
+        playernum++;
+    } else if (roundResults.startsWith('You Lose!')) {
+        computernum++;
+    }
+
+
+       
+    document.getElementById('playerScore').innerText = `Player: ${playernum}`;
+    document.getElementById('computerScore').innerText = `Computer: ${computernum}`;
+
+    checkwinner();
+}
+
+
+function checkwinner(){
+
+    if(playernum === 5) {
+        document.getElementById('winner').innerText = "congratulations! you are the winner";
+        disablebuttons();
+
+    }else if(computernum === 5) {
+        document.getElementById('winner').innerText = "sorry my friend you lost this one but not all";
+        disablebuttons();
+    }
+}
+
+function disablebuttons(){
+
+    const buttons = document.querySelectorAll("button");
+
+    buttons.forEach((button) => {
+        button.disabled = true;
+    });
+}
+
+const buttons = document.querySelectorAll("button");
+
+buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+        playRound(button.value);
+    });
+});
+
+
+
